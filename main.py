@@ -40,9 +40,7 @@ class App:
         self.current_word_count = 0
         self.current_right_word_count = 0
 
-        self.main()
-
-    def main(self):
+    def start(self):
         while True:
             if not self.active_test:
                 answer = None
@@ -99,8 +97,9 @@ class App:
 
     def help(self):
         print("\nПомощь:")
-        print("1. " + filename_words + " - файл со всеми словами и ударениями; каждая строка файла - отдельное слово, ударение выделяется большой буквой, при том использование нескольких заглавных букв не рекомендуется")
-        print("2. Навигация производится по подсказкам")
+        print("1. Навигация производится по подсказкам")
+        print("2. " + filename_words + " - файл со всеми словами и ударениями; каждая строка файла - отдельное слово, ударение выделяется большой буквой, при том использование нескольких заглавных букв не рекомендуется")
+        print("3. Завершать работу программы комбинацией CTRL + Z или CTRL + С не рекомендуется")
         input("[нажмите Enter]")
 
     def statistic(self):
@@ -155,4 +154,7 @@ class App:
 
 if __name__ == "__main__":
     app = App()
-    app.main()
+    try:
+        app.start()
+    except KeyboardInterrupt:
+        app.save_statistic()
