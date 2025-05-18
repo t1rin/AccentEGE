@@ -121,10 +121,18 @@ class App:
         print(" - Наибольшее число ошибок в слове: ", erroneous_word)
         input("[нажмите Enter]")
 
+        self.current_right_word_count = 0
+        self.current_word_count = 0
+
+        self.save_statistic()
+
     def exit(self, code=0):
+        self.save_statistic()
+        exit(code)
+
+    def save_statistic():
         with open(filename_statistic, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.statistic_data, ensure_ascii=False, indent=4))
-        exit(code)
 
     def get_vowel_index(self, word):
         ind_vowal = []
