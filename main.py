@@ -13,17 +13,6 @@ class App:
     def __init__(self):
         self.active_test = True
 
-        if os.path.exists(filename_words):
-            with open(filename_words, 'r', encoding='utf-8') as file:
-                self.words = [line.strip() for line in file]
-        else:
-            print(f"Файл {filename_words} не найден")
-            self.exit(1)
-
-        if not self.is_format(self.words):
-            print("Ошибка в формате данных. Для остальной информации введите help")
-            self.active_test = False
-
         try:
             with open(filename_statistic, 'r', encoding='utf-8') as file:
                 self.statistic_data = json.loads(file.read())
@@ -36,6 +25,17 @@ class App:
             }
             with open(filename_statistic, 'w', encoding='utf-8') as file:
                 file.write(json.dumps(self.statistic_data, ensure_ascii=False, indent=4))
+
+        if os.path.exists(filename_words):
+            with open(filename_words, 'r', encoding='utf-8') as file:
+                self.words = [line.strip() for line in file]
+        else:
+            print(f"Файл {filename_words} не найден")
+            self.exit(1)
+
+        if not self.is_format(self.words):
+            print(f"В файле {filename_words} ошибка. Для остальной информации введите '0' для помощи")
+            self.active_test = False
 
         self.current_word_count = 0
         self.current_right_word_count = 0
@@ -96,10 +96,16 @@ class App:
             self.active_test = 0
 
     def help(self):
-        print("\nПомощь:")
-        print("1. Навигация производится по подсказкам")
-        print("2. " + filename_words + " - файл со всеми словами и ударениями; каждая строка файла - отдельное слово, ударение выделяется большой буквой, при том использование нескольких заглавных букв не рекомендуется")
-        print("3. Завершать работу программы комбинацией CTRL + Z или CTRL + С не рекомендуется")
+        print("\nОписание:")
+        print(" Программа AccentEGE. Навигация производится по подсказкам.")
+        input("[нажмите Enter]")
+        print("\nИнформация:")
+        print(f" {filename_words} - файл со всеми словами и ударениями; каждая строка файла - отдельное слово, ударение выделяется большой буквой.")
+        input("[нажмите Enter]")
+        print("\nРекомендации:")
+        print(f" 1. Не использовать нескольких заглавных букв в слове внутри файла {filename_words}")
+        print(f" 2. Не оставлять пустым файл {filename_words}")
+        print(" 3. Не завершать работу программы комбинацией CTRL + Z или CTRL + С")
         input("[нажмите Enter]")
 
     def statistic(self):
@@ -129,7 +135,7 @@ class App:
         self.save_statistic()
         exit(code)
 
-    def save_statistic():
+    def save_statistic(self):
         with open(filename_statistic, "w", encoding="utf-8") as file:
             file.write(json.dumps(self.statistic_data, ensure_ascii=False, indent=4))
 
@@ -149,7 +155,7 @@ class App:
                 print(word)
                 flag = False
                 break
-        return flag
+        return (flag and words)
 
 
 if __name__ == "__main__":
