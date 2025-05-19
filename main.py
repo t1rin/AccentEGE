@@ -46,7 +46,10 @@ class App:
                 answer = None
                 while answer not in [0, 1, 2, 3]:
                     print("\nМЕНЮ")
-                    print("0 - помощь | 1 - тренировка | 2 - статистика | 3 - выход")
+                    print(" ├0── помощь")
+                    print(" ├1── тренировка")
+                    print(" ├2── статистика")
+                    print(" └3── выход")
                     try:answer = int(input(">> "))
                     except: pass
                 if answer == 0:
